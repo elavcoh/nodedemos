@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>your favorite pokemon</title>
+  <link rel="stylesheet" href="favorites.css" />
+</head>
+<body>
+  <h1>your favorite pokemon</h1>
+
+  <div class="favorites-page">
+    <!-- button to go back to main pokemon page -->
+    <button id="back-button">back to main page</button>
+    <!-- button to download favorites as a json file -->
+    <button id="download-json-button">download favorites as json</button>
+  </div>
+
+  <!-- sorting options for favorites -->
+  <div id="sort-container">
+    <label for="sort-select">sort by:</label>
+    <select id="sort-select">
+      <option value="name">name</option>
+      <option value="id">id</option>
+    </select>
+  </div>
+
+  <!-- message shown while sorting favorites -->
+  <div id="loading-screen" class="loading-screen">sorting favorites...</div>
+  <!-- container where favorite pokemon cards will show -->
+  <div id="favorites-container" class="pokemon-grid"></div>
+
+  <script src="favorites.js"></script>
+</body>
+</html>
