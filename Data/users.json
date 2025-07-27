@@ -6,44 +6,6 @@
     "password": "$2b$10$RO7zOVgwWGpdvOa5LvhSnuj8t8tjbYR6nNru6f.Dbyj/Ru2EVLdjy",
     "favorites": [
       {
-        "id": 6,
-        "name": "charizard",
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
-        "types": [
-          "fire",
-          "flying"
-        ],
-        "abilities": [
-          "blaze",
-          "solar-power"
-        ],
-        "stats": {
-          "hp": 78,
-          "attack": 84,
-          "defense": 78,
-          "speed": 100
-        }
-      },
-      {
-        "id": 58,
-        "name": "growlithe",
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/58.png",
-        "types": [
-          "fire"
-        ],
-        "abilities": [
-          "intimidate",
-          "flash-fire",
-          "justified"
-        ],
-        "stats": {
-          "hp": 55,
-          "attack": 70,
-          "defense": 45,
-          "speed": 60
-        }
-      },
-      {
         "id": 77,
         "name": "ponyta",
         "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/77.png",
@@ -82,39 +44,22 @@
         }
       },
       {
-        "id": 4,
-        "name": "charmander",
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+        "id": 6,
+        "name": "charizard",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
         "types": [
-          "fire"
+          "fire",
+          "flying"
         ],
         "abilities": [
           "blaze",
           "solar-power"
         ],
         "stats": {
-          "hp": 39,
-          "attack": 52,
-          "defense": 43,
-          "speed": 65
-        }
-      },
-      {
-        "id": 5,
-        "name": "charmeleon",
-        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
-        "types": [
-          "fire"
-        ],
-        "abilities": [
-          "blaze",
-          "solar-power"
-        ],
-        "stats": {
-          "hp": 58,
-          "attack": 64,
-          "defense": 58,
-          "speed": 80
+          "hp": 78,
+          "attack": 84,
+          "defense": 78,
+          "speed": 100
         }
       }
     ]

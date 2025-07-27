@@ -42,6 +42,7 @@ async function fetchPokemonDetails(url) {
   detailsCache.set(url, info);
   return info;
 }
+
 async function toggleFavorite(pokemon, card, btn) {
   const idx = favorites.findIndex(f => f.id === pokemon.id);
   if (idx > -1) {
@@ -50,11 +51,9 @@ async function toggleFavorite(pokemon, card, btn) {
     btn.textContent = "add to favorites";
 
     try {
-      await fetch("/api/favorites/remove", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ id: pokemon.id }),
+      await fetch(`/api/favorites/${pokemon.id}`, {
+        method: "DELETE",
+        credentials: "same-origin"
       });
     } catch (err) {
       console.error("Failed to remove favorite:", err);
@@ -85,7 +84,6 @@ async function toggleFavorite(pokemon, card, btn) {
   }
 }
 
-
 async function fetchVideoId(pokemonName, category) {
   const key = window.YOUTUBE_API_KEY;
   if (!key) return null;
@@ -105,14 +103,25 @@ function createPokemonCard(pokemon) {
   const card = document.createElement("div");
   card.className = "pokemon-card";
 
+<<<<<<< HEAD
   const isFav = favorites.some(f => f.id === pokemon.id);
   if (isFav) card.classList.add("added-to-favorites");
 
+=======
+  // check if pokemon is already in favorites list
+  const isFavorite = favorites.some(fav => fav.id === pokemon.id);
+  if (isFavorite) {
+    card.classList.add("added-to-favorites"); // add css class if favorite
+  }
+
+  // add pokemon info inside card
+>>>>>>> 10f93522875441141ef66ca069a72cff0e18fca8
   card.innerHTML = `
     <h2>#${pokemon.id} - ${pokemon.name}</h2>
     <img src="${pokemon.image}" alt="${pokemon.name}" />
     <p><strong>types:</strong> ${pokemon.types.join(", ")}</p>
     <p><strong>abilities:</strong> ${pokemon.abilities.join(", ")}</p>
+<<<<<<< HEAD
     <div class="details">
       <p><strong>HP:</strong> ${pokemon.stats.hp}</p>
       <p><strong>Attack:</strong> ${pokemon.stats.attack}</p>
@@ -228,5 +237,74 @@ window.addEventListener("DOMContentLoaded", async () => {
     searchPokemon(savedSearch, savedFilter);
     sessionStorage.removeItem("savedSearch");
     sessionStorage.removeItem("savedFilter");
+=======
+  `;
+
+  // create favorite button text and style
+  const favButton = document.createElement("button");
+  favButton.classList.add("add-to-favorites");
+  favButton.textContent = isFavorite ? "remove from favorites" : "add to favorites";
+
+  // when favorite button clicked, toggle favorite state
+  favButton.addEventListener("click", () => toggleFavorite(pokemon, card, favButton));
+
+  card.appendChild(favButton);
+  return card;
+}
+
+// toggle favorite status for one pokemon card
+function toggleFavorite(pokemon, card, favButton) {
+  // check if pokemon already in favorites list
+  const index = favorites.findIndex(fav => fav.id === pokemon.id);
+
+  if (index === -1) {
+    // not favorite, so add it to favorites
+    favorites.push(pokemon);
+    favButton.textContent = "remove from favorites";     // update button text
+    card.classList.add("added-to-favorites");            // update card style
+  } else {
+    // is favorite, so remove it from favorites
+    favorites.splice(index, 1);
+    favButton.textContent = "add to favorites";          // update button text
+    card.classList.remove("added-to-favorites");         // update card style
+  }
+
+  // save updated favorites list to localStorage (sync across tabs)
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+
+  // update all cards UI in this page to stay in sync
+  updateFavoritesUI();
+}
+
+// update all pokemon cards UI to match current favorites list
+function updateFavoritesUI() {
+  const cards = pokemonContainer.querySelectorAll(".pokemon-card");
+  cards.forEach(card => {
+    // get pokemon id from card title text
+    const titleText = card.querySelector("h2").textContent;
+    const id = parseInt(titleText.match(/^#(\d+)/)[1]);
+
+    // check if this pokemon is in favorites
+    const isFavorite = favorites.some(fav => fav.id === id);
+    const favButton = card.querySelector(".add-to-favorites");
+
+    // update card style and button text accordingly
+    if (isFavorite) {
+      card.classList.add("added-to-favorites");
+      favButton.textContent = "remove from favorites";
+    } else {
+      card.classList.remove("added-to-favorites");
+      favButton.textContent = "add to favorites";
+    }
+  });
+}
+
+// listen for localStorage changes from other tabs/windows
+// this event helps sync favorites changes between pages
+window.addEventListener("storage", (event) => {
+  if (event.key === "favorites") {
+    favorites = JSON.parse(event.newValue) || [];
+    updateFavoritesUI();  // update UI to reflect changes from other tab
+>>>>>>> 10f93522875441141ef66ca069a72cff0e18fca8
   }
 });

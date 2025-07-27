@@ -1,5 +1,7 @@
+// server.js
+
 const express = require('express');
-const path = require('path');
+const path    = require('path');
 const session = require('express-session');
 
 const app = express();
@@ -28,7 +30,7 @@ app.get('/api/me', (req, res) => {
 // 4. Mount your APIs
 app.use('/', authRoutes);
 app.use('/api/users', usersRouter);
-app.use('/api/favorites', favRoutes); // ✅ שים לב - היה צריך לתקן ל /api/favorites
+app.use('/api', favRoutes);
 
 // 5. Serve the new styled homepage at `/`
 app.get('/', (req, res) => {

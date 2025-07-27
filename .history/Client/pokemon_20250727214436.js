@@ -42,6 +42,7 @@ async function fetchPokemonDetails(url) {
   detailsCache.set(url, info);
   return info;
 }
+
 async function toggleFavorite(pokemon, card, btn) {
   const idx = favorites.findIndex(f => f.id === pokemon.id);
   if (idx > -1) {
@@ -50,11 +51,9 @@ async function toggleFavorite(pokemon, card, btn) {
     btn.textContent = "add to favorites";
 
     try {
-      await fetch("/api/favorites/remove", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ id: pokemon.id }),
+      await fetch(`/api/favorites/${pokemon.id}`, {
+        method: "DELETE",
+        credentials: "same-origin"
       });
     } catch (err) {
       console.error("Failed to remove favorite:", err);
@@ -84,7 +83,6 @@ async function toggleFavorite(pokemon, card, btn) {
     }
   }
 }
-
 
 async function fetchVideoId(pokemonName, category) {
   const key = window.YOUTUBE_API_KEY;
