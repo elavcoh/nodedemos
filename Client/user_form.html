@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Form</title>
+</head>
+
+<body>
+    <h1>Submit Your Info</h1>
+    <form id="userForm">
+        <label>Name: <input type="text" name="name" required></label><br><br>
+        <label>Email: <input type="email" name="email" required></label><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="message" style="margin-top: 1em; color: green;"></div>
+</body>
+
+<script>
+    document.getElementById('userForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // prevent default form submit
+
+        //Get The Triiger element
+        const form = e.target;
+        //FormData
+        const formData = new FormData(form);
+
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email')
+        };
+
+        try {
+            const response = await fetch('/api/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const text = await response.text();
+            document.getElementById('message').innerHTML = text;
+
+            form.reset(); // optional: clear form
+
+        } catch (err) {
+            document.getElementById('message').textContent = 'Error saving user';
+            console.error(err);
+        }
+    });
+</script>
+
+
+</html>

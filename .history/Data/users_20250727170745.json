@@ -1,0 +1,19 @@
+[
+ 
+  {
+    "firstName": "alon",
+    "email": "test@gmail.com",
+    "password": "$2b$10$5ZR6n8j10S80FyFqlTHaOOj0gRzRAF3ix3qXIgASBJuMnmnRL7hiu",
+    "favorites": []
+  },
+  {
+    "firstName": "Test",
+    "email": "test@example.com",
+    "password": "$2b$10$.Yg7bSqX79S/dzis5RLWv.LAedWPh50Ua8k2yZ9DRynj2O8q7Nz1W"
+  },
+  {
+    "firstName": "testtwo",
+    "email": "test2@gmail.com",
+    "password": "$2b$10$M1eQFSzS7u20uUWyP3HqyOHQ.i0v9Dlm7i7R6ZNuBeY9cbXXuknZO"
+  }
+]

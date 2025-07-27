@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+</head>
+<body>
+  <h1>Register</h1>
+  <form onsubmit="register(event)">
+    <input id="username" placeholder="Username" required />
+    <input id="password" type="password" placeholder="Password" required />
+    <button>Register</button>
+  </form>
+  <p><a href="login.html">Login</a></p>
+
+  <script>
+    async function register(e) {
+      e.preventDefault();
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value,
+        }),
+      });
+      if (res.ok) location.href = "login.html";
+      else alert("Registration failed");
+    }
+  </script>
+</body>
+</html>

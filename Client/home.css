@@ -1,0 +1,73 @@
+/* home.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f5f5f5, #ffffff);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+    color: #2a75bb;
+    margin-bottom: 16px;
+  }
+  
+  .hero-gif {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 24px;
+  }
+  
+  .description {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 24px;
+  }
+  
+  .developers h2 {
+    font-size: 1.5em;
+    color: #2a75bb;
+    margin-bottom: 8px;
+  }
+  
+  .developers ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .developers li {
+    font-size: 1em;
+    color: #555;
+    margin: 4px 0;
+  }
+  
+  .button-container {
+    margin-top: 32px;
+  }
+  
+  .btn {
+    display: inline-block;
+    background: #ffcb05;
+    color: #2a75bb;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 8px;
+    transition: background 0.3s;
+  }
+  
+  .btn:hover {
+    background: #e0b204;
+  }
+  
