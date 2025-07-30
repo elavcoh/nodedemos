@@ -74,6 +74,21 @@ app.get('/api/online-users', (req, res) => {
   res.json({ online: onlineUsers });
 });
 
+// הוספת שדה online לכל המשתמשים (זמני)
+app.get('/fix-online', (req, res) => {
+  const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
+  let users = JSON.parse(fs.readFileSync(USERS_FILE));
+  
+  // הוספת שדה online לכל משתמש
+  users = users.map(u => ({
+    ...u,
+    online: u.online !== undefined ? u.online : false
+  }));
+  
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+  res.json({ message: 'Online field added to all users', users: users.map(u => ({ name: u.firstName, email: u.email, online: u.online })) });
+});
+
 // הוספת משתמש לבדיקה (זמני)
 app.get('/add-test-user', (req, res) => {
   const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
@@ -187,39 +202,7 @@ app.post('/api/arena/battle', (req, res) => {
   res.json(battleResult);
 });
 
-// עדכון logout – עדכון online ל־false
-app.post('/logout', (req, res) => {
-  if (req.session.user) {
-    let users = JSON.parse(fs.readFileSync(USERS_FILE));
-    users = users.map(u => u.id === req.session.user.id ? { ...u, online: false } : u);
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-  }
-  req.session.destroy(() => {
-    res.redirect('/login');
-  });
-});
-
-// עדכון אוטומטי של online כל 5 דקות
-setInterval(() => {
-  const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
-  let users = JSON.parse(fs.readFileSync(USERS_FILE));
-  let updated = false;
-  users = users.map(u => {
-    if (u.online) {
-      // אם המשתמש online יותר מ־10 דקות – עדכן ל־false
-      if (!u.lastSeen || (Date.now() - u.lastSeen) > 10 * 60 * 1000) {
-        updated = true;
-        return { ...u, online: false };
-      }
-    }
-    return u;
-  });
-  if (updated) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-  }
-}, 5 * 60 * 1000); // כל 5 דקות
-
-// עדכון login – שמירת זמן התחברות
+// עדכון login – הוספת/עדכון שדה online
 app.post('/login', async (req, res) => {
   const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
   const users = JSON.parse(fs.readFileSync(USERS_FILE));
@@ -241,13 +224,32 @@ app.post('/login', async (req, res) => {
   res.redirect('/arena');
 });
 
+// עדכון logout – עדכון online ל־false
+app.post('/logout', (req, res) => {
+  if (req.session.user) {
+    const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
+    let users = JSON.parse(fs.readFileSync(USERS_FILE));
+    users = users.map(u => 
+      u.id === req.session.user.id ? { ...u, online: false } : u
+    );
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+  }
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
+});
+
 // עדכון online status
 app.post('/api/online', (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Not logged in' });
   
   const USERS_FILE = path.join(__dirname, 'Data', 'users.json');
   let users = JSON.parse(fs.readFileSync(USERS_FILE));
-  users = users.map(u => u.id === req.session.user.id ? { ...u, online: true } : u);
+  users = users.map(u => 
+    u.id === req.session.user.id 
+      ? { ...u, online: true, lastSeen: Date.now() } 
+      : u
+  );
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
   res.json({ success: true });
 });

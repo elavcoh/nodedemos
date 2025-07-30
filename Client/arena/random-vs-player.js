@@ -129,99 +129,61 @@ function renderBattle() {
       </div>
     </div>
   `;
+  
+  // התחלת שחלוף הפוקימונים מיד
+  animatePokemonRoulette();
 }
 
-// חלוף מהיר של פוקימונים לפני בחירה
-function showPokemonSelection() {
-  console.log('=== Pokemon Selection Animation ===');
-  console.log('Battle data:', battleData);
-  
-  // קבלת כל הפוקימונים של כל שחקן
+function animatePokemonRoulette() {
   const mePokemons = battleData.meAllPokemons || [battleData.me.pokemon];
   const oppPokemons = battleData.oppAllPokemons || [battleData.opponent.pokemon];
-  
-  console.log('Me pokemons:', mePokemons);
-  console.log('Opp pokemons:', oppPokemons);
-  
-  if (mePokemons.length <= 1 && oppPokemons.length <= 1) {
-    console.log('Not enough pokemons for animation');
-    return;
-  }
-  
-  let meIndex = 0, oppIndex = 0;
-  
-  // הוספת אפקט ויזואלי - הפוקימונים יהבהבו
-  const meImg = document.querySelector('#me .pokemon-img');
-  const oppImg = document.querySelector('#opp .pokemon-img');
-  
-  if (meImg) meImg.style.filter = 'brightness(1.2)';
-  if (oppImg) oppImg.style.filter = 'brightness(1.2)';
-  
-  const meInterval = setInterval(() => {
-    const currentMePokemon = mePokemons[meIndex % mePokemons.length];
-    const meImg = document.querySelector('#me .pokemon-img');
-    const meName = document.querySelector('#me h4');
-    
-    if (meImg && meName) {
-      console.log('Changing me pokemon to:', currentMePokemon.name);
-      meImg.src = currentMePokemon.image;
-      meName.textContent = currentMePokemon.name;
-      
-      // אפקט הבהוב
-      meImg.style.transform = 'scale(1.1)';
-      setTimeout(() => {
+
+  let meImg = document.querySelector('#me .pokemon-img');
+  let meName = document.querySelector('#me h4');
+  let oppImg = document.querySelector('#opp .pokemon-img');
+  let oppName = document.querySelector('#opp h4');
+
+  let totalDuration = 1800; // משך כולל במילישניות
+  let interval = 60; // התחלה מהירה
+  let elapsed = 0;
+
+  // אפקט רולטה: מתחיל מהר ומאט בהדרגה
+  function spin() {
+    if (elapsed < totalDuration) {
+      // רנדום פוקימון לכל צד
+      const mePoke = mePokemons[Math.floor(Math.random() * mePokemons.length)];
+      const oppPoke = oppPokemons[Math.floor(Math.random() * oppPokemons.length)];
+      if (meImg && meName) {
+        meImg.src = mePoke.image;
+        meName.textContent = mePoke.name;
+        meImg.style.transform = 'scale(1.15)';
+        setTimeout(() => meImg.style.transform = 'scale(1)', 40);
+      }
+      if (oppImg && oppName) {
+        oppImg.src = oppPoke.image;
+        oppName.textContent = oppPoke.name;
+        oppImg.style.transform = 'scale(1.15)';
+        setTimeout(() => oppImg.style.transform = 'scale(1)', 40);
+      }
+      // האטה הדרגתית
+      interval = Math.min(200, interval + 15);
+      elapsed += interval;
+      setTimeout(spin, interval);
+    } else {
+      // בסוף – להחזיר את הפוקימון שנבחר באמת
+      if (meImg && meName) {
+        meImg.src = battleData.me.pokemon.image;
+        meName.textContent = battleData.me.pokemon.name;
         meImg.style.transform = 'scale(1)';
-      }, 100);
-    }
-    meIndex++;
-  }, 800); // האטתי ל־800ms
-  
-  const oppInterval = setInterval(() => {
-    const currentOppPokemon = oppPokemons[oppIndex % oppPokemons.length];
-    const oppImg = document.querySelector('#opp .pokemon-img');
-    const oppName = document.querySelector('#opp h4');
-    
-    if (oppImg && oppName) {
-      console.log('Changing opp pokemon to:', currentOppPokemon.name);
-      oppImg.src = currentOppPokemon.image;
-      oppName.textContent = currentOppPokemon.name;
-      
-      // אפקט הבהוב
-      oppImg.style.transform = 'scale(1.1)';
-      setTimeout(() => {
+      }
+      if (oppImg && oppName) {
+        oppImg.src = battleData.opponent.pokemon.image;
+        oppName.textContent = battleData.opponent.pokemon.name;
         oppImg.style.transform = 'scale(1)';
-      }, 100);
+      }
     }
-    oppIndex++;
-  }, 800); // האטתי ל־800ms
-  
-  // עצירת החלוף אחרי 4 שניות
-  setTimeout(() => {
-    console.log('Stopping Pokemon selection animation');
-    clearInterval(meInterval);
-    clearInterval(oppInterval);
-    
-    // החזרת הפוקימון שנבחר
-    const meImg = document.querySelector('#me .pokemon-img');
-    const meName = document.querySelector('#me h4');
-    const oppImg = document.querySelector('#opp .pokemon-img');
-    const oppName = document.querySelector('#opp h4');
-    
-    if (meImg && meName) {
-      meImg.src = battleData.me.pokemon.image;
-      meName.textContent = battleData.me.pokemon.name;
-      meImg.style.filter = 'brightness(1)';
-      meImg.style.transform = 'scale(1)';
-    }
-    if (oppImg && oppName) {
-      oppImg.src = battleData.opponent.pokemon.image;
-      oppName.textContent = battleData.opponent.pokemon.name;
-      oppImg.style.filter = 'brightness(1)';
-      oppImg.style.transform = 'scale(1)';
-    }
-    
-    console.log('Pokemon selection animation completed');
-  }, 4000); // הגדלתי ל־4 שניות
+  }
+  spin();
 }
 
 // טיימר 3...2...1 ואז הצגת מנצח
@@ -273,13 +235,12 @@ function showWinner() {
 document.getElementById('back-btn').onclick = () => {
   document.getElementById('players-section').style.display = 'block';
   document.getElementById('battle-section').style.display = 'none';
-  loadPlayers();
 };
 
-// אתחול הדף
+// אתחול
 async function init() {
   await loadCurrentUser();
-  await loadPlayers();
-  setInterval(loadPlayers, 10000);
 }
+
+// הפעלה כשהדף נטען
 document.addEventListener('DOMContentLoaded', init); 
