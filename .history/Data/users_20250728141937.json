@@ -1,0 +1,251 @@
+//users.json
+[
+  {
+    "id": "7fc56996-c70c-47f6-9769-b156f29da9f9",
+    "firstName": "elav",
+    "email": "elavcohen7@gmail.com",
+    "password": "$2b$10$RO7zOVgwWGpdvOa5LvhSnuj8t8tjbYR6nNru6f.Dbyj/Ru2EVLdjy",
+    "favorites": [
+      {
+        "id": 77,
+        "name": "ponyta",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/77.png",
+        "types": [
+          "fire"
+        ],
+        "abilities": [
+          "run-away",
+          "flash-fire",
+          "flame-body"
+        ],
+        "stats": {
+          "hp": 50,
+          "attack": 85,
+          "defense": 55,
+          "speed": 90
+        }
+      },
+      {
+        "id": 59,
+        "name": "arcanine",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/59.png",
+        "types": [
+          "fire"
+        ],
+        "abilities": [
+          "intimidate",
+          "flash-fire",
+          "justified"
+        ],
+        "stats": {
+          "hp": 90,
+          "attack": 110,
+          "defense": 80,
+          "speed": 95
+        }
+      },
+      {
+        "id": 6,
+        "name": "charizard",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "abilities": [
+          "blaze",
+          "solar-power"
+        ],
+        "stats": {
+          "hp": 78,
+          "attack": 84,
+          "defense": 78,
+          "speed": 100
+        }
+      },
+      {
+        "id": 124,
+        "name": "jynx",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/124.png",
+        "types": [
+          "ice",
+          "psychic"
+        ],
+        "abilities": [
+          "oblivious",
+          "forewarn",
+          "dry-skin"
+        ],
+        "stats": {
+          "hp": 65,
+          "attack": 50,
+          "defense": 35,
+          "speed": 95
+        }
+      },
+      {
+        "id": 131,
+        "name": "lapras",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/131.png",
+        "types": [
+          "water",
+          "ice"
+        ],
+        "abilities": [
+          "water-absorb",
+          "shell-armor",
+          "hydration"
+        ],
+        "stats": {
+          "hp": 130,
+          "attack": 85,
+          "defense": 80,
+          "speed": 60
+        }
+      },
+      {
+        "id": 91,
+        "name": "cloyster",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/91.png",
+        "types": [
+          "water",
+          "ice"
+        ],
+        "abilities": [
+          "shell-armor",
+          "skill-link",
+          "overcoat"
+        ],
+        "stats": {
+          "hp": 50,
+          "attack": 95,
+          "defense": 180,
+          "speed": 70
+        }
+      },
+      {
+        "id": 87,
+        "name": "dewgong",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/87.png",
+        "types": [
+          "water",
+          "ice"
+        ],
+        "abilities": [
+          "thick-fat",
+          "hydration",
+          "ice-body"
+        ],
+        "stats": {
+          "hp": 90,
+          "attack": 70,
+          "defense": 80,
+          "speed": 70
+        }
+      }
+    ]
+  },
+  {
+    "id": "f5ad4d88-8a91-4292-9eeb-40b29826c26f",
+    "firstName": "Alon",
+    "email": "test@gmail.com",
+    "password": "$2b$10$heLYof7p12oKaMAxFJj6DuQaxj0vtQtEotJKfGJgf1aeLDNON.CJO",
+    "favorites": [
+      {
+        "id": 1,
+        "name": "bulbasaur",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "abilities": [
+          "overgrow",
+          "chlorophyll"
+        ],
+        "stats": {
+          "hp": 45,
+          "attack": 49,
+          "defense": 49,
+          "speed": 45
+        }
+      },
+      {
+        "id": 787,
+        "name": "tapu-bulu",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/787.png",
+        "types": [
+          "grass",
+          "fairy"
+        ],
+        "abilities": [
+          "grassy-surge",
+          "telepathy"
+        ],
+        "stats": {
+          "hp": 70,
+          "attack": 130,
+          "defense": 115,
+          "speed": 75
+        }
+      },
+      {
+        "id": 938,
+        "name": "tadbulb",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/938.png",
+        "types": [
+          "electric"
+        ],
+        "abilities": [
+          "own-tempo",
+          "static",
+          "damp"
+        ],
+        "stats": {
+          "hp": 61,
+          "attack": 31,
+          "defense": 41,
+          "speed": 45
+        }
+      },
+      {
+        "id": 25,
+        "name": "pikachu",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+        "types": [
+          "electric"
+        ],
+        "abilities": [
+          "static",
+          "lightning-rod"
+        ],
+        "stats": {
+          "hp": 35,
+          "attack": 55,
+          "defense": 40,
+          "speed": 90
+        }
+      },
+      {
+        "id": 731,
+        "name": "pikipek",
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/731.png",
+        "types": [
+          "normal",
+          "flying"
+        ],
+        "abilities": [
+          "keen-eye",
+          "skill-link",
+          "pickup"
+        ],
+        "stats": {
+          "hp": 35,
+          "attack": 75,
+          "defense": 30,
+          "speed": 65
+        }
+      }
+    ]
+  }
+]

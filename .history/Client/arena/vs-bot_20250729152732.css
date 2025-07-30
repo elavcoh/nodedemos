@@ -1,0 +1,51 @@
+/* File: Client/arena/vs-bot.css */
+
+.vs-bot-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.pokemon-card {
+  background: #f7f7f7;
+  border: 2px solid #2a75bb;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.pokemon-card:hover {
+  transform: scale(1.05);
+  background: #fffae6;
+}
+
+.pokemon-card.selected {
+  border-color: #ffcb05;
+  background: #fff8d1;
+}
+
+.battle-field {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+
+.battle-log {
+  margin-top: 20px;
+  background: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  min-height: 60px;
+  text-align: left;
+}

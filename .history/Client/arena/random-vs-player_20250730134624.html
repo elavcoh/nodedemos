@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Random vs Player</title>
+  <link rel="stylesheet" href="/arena.css"/>
+  <link rel="stylesheet" href="/battle.css"/>
+  <style>
+    .players-list { margin:20px; }
+    .player-card {
+      background:#fff; border:2px solid #2a75bb; padding:10px;
+      margin:10px; display:inline-block; cursor:pointer;
+      border-radius:8px; transition:0.3s;
+    }
+    .player-card:hover { background:#ffcb05; }
+    .battle-container { display:none; text-align:center; }
+    .pokemon { display:inline-block; margin:20px; }
+    .pokemon img { max-width:150px; }
+    .winner { border:3px solid gold; box-shadow:0 0 15px gold; }
+    .loser { opacity:0.4; }
+    #timer { font-size:2rem; color:red; margin:20px; }
+  </style>
+</head>
+<body>
+  <div class="arena-container">
+    <h1 class="arena-title">Random Battle vs Player</h1>
+
+    <div id="players-section">
+      <h2>Choose Opponent:</h2>
+      <div id="players-list" class="players-list">Loading players…</div>
+    </div>
+
+    <div id="battle-section" class="battle-container">
+      <div id="timer"></div>
+      <div id="battle-field"></div>
+      <button id="start-battle-btn">Start Battle</button>
+    </div>
+  </div>
+
+  <script>
+    let selectedOpponent = null;
+    let battleData = null;
+
+    async function loadPlayers() {
+      const res = await fetch('/api/online-users');
+      const data = await res.json();
+      const list = document.getElementById('players-list');
+      list.innerHTML = '';
+
+      if (!data.online.length) {
+        list.textContent = 'No players online.';
+        return;
+      }
+
+      data.online.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'player-card';
+        div.textContent = p.firstName + " (" + p.email + ")";
+        div.onclick = () => startBattle(p.id);
+        list.appendChild(div);
+      });
+    }
+
+    async function startBattle(opponentId) {
+      const res = await fetch('/api/arena/battle', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ opponentId })
+      });
+      battleData = await res.json();
+
+      document.getElementById('players-section').style.display = 'none';
+      document.getElementById('battle-section').style.display = 'block';
+
+      renderBattle();
+    }
+
+    function renderBattle() {
+      const field = document.getElementById('battle-field');
+      const me = battleData.me, opp = battleData.opponent;
+      field.innerHTML = `
+        <div class="pokemon" id="me">
+          <h3>${me.user.name}</h3>
+          <img src="${me.pokemon.image}" alt="${me.pokemon.name}"/>
+          <p>${me.pokemon.name}</p>
+          <p>HP:${me.pokemon.stats.hp} Atk:${me.pokemon.stats.attack} Def:${me.pokemon.stats.defense} Spd:${me.pokemon.stats.speed}</p>
+        </div>
+        <div class="pokemon" id="opp">
+          <h3>${opp.user.name}</h3>
+          <img src="${opp.pokemon.image}" alt="${opp.pokemon.name}"/>
+          <p>${opp.pokemon.name}</p>
+          <p>HP:${opp.pokemon.stats.hp} Atk:${opp.pokemon.stats.attack} Def:${opp.pokemon.stats.defense} Spd:${opp.pokemon.stats.speed}</p>
+        </div>
+      `;
+    }
+
+    document.getElementById('start-battle-btn').onclick = () => {
+      let t = 3;
+      const timer = document.getElementById('timer');
+      timer.textContent = t;
+      const intv = setInterval(() => {
+        t--;
+        if (t === 0) {
+          clearInterval(intv);
+          timer.textContent = "Fight!";
+          showWinner();
+        } else {
+          timer.textContent = t;
+        }
+      },1000);
+    };
+
+    function showWinner() {
+      const winnerId = battleData.winner;
+      const me = document.getElementById('me');
+      const opp = document.getElementById('opp');
+      if (battleData.me.user.id === winnerId) {
+        me.classList.add('winner');
+        opp.classList.add('loser');
+      } else {
+        opp.classList.add('winner');
+        me.classList.add('loser');
+      }
+    }
+
+    loadPlayers();
+  </script>
+</body>
+</html>

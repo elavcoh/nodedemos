@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #ffcb05, #2a75bb);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arena-container {
+  max-width: 800px;
+  margin: 100px auto;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.arena-title {
+  font-size: 2.5rem;
+  color: #FFCB05;
+  text-shadow:
+    -2px 0 #2A75BB,
+     0 2px #2A75BB,
+     2px 0 #2A75BB,
+     0 -2px #2A75BB;
+  margin-bottom: 30px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* apply same style to all arena buttons */
+#back-button,
+#vs-bot-button,
+#vs-player-button {
+  background-color: #ffcb05;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #2a75bb;
+  font-weight: bold;
+}
+
+#back-button:hover,
+#vs-bot-button:hover,
+#vs-player-button:hover {
+  background-color: #f5b700;
+  transform: scale(1.05);
+}

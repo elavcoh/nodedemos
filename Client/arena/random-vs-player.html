@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Random vs Player</title>
+  <!-- שים לב שהנתיבים עכשיו תחת /arena -->
+  <link rel="stylesheet" href="/arena/random-vs-player.css"/>
+  <link rel="stylesheet" href="/battle.css"/>
+</head>
+<body>
+  <div class="arena-container">
+    <h1 class="arena-title">Random Battle vs Player</h1>
+
+    <div id="players-section">
+      <h2>Choose Opponent:</h2>
+      <div id="players-list" class="players-list">Loading players…</div>
+    </div>
+
+    <div id="battle-section" class="battle-container" style="display:none;">
+      <div id="timer"></div>
+      <div id="battle-field"></div>
+      <button id="start-battle-btn">Start Battle</button>
+    </div>
+  </div>
+
+  <!-- הנתיב של ה־JS תוקן -->
+  <script src="/arena/random-vs-player.js"></script>
+</body>
+</html>

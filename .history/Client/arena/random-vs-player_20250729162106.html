@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Random Battle vs Player</title>
+  <link rel="stylesheet" href="/pokemon.css"/>
+  <link rel="stylesheet" href="/arena.css"/>
+  <link rel="stylesheet" href="/vs-bot.css"/>
+  <link rel="stylesheet" href="/random-vs-player.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <div class="vs-bot-container arena-container">
+    <div class="button-container">
+      <button id="back-btn" class="nav-btn">Back</button>
+      <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    </div>
+
+    <h1 class="vs-bot-title arena-title">Random Battle vs Player</h1>
+    <h2>Choose an Online Opponent:</h2>
+
+    <div id="players-container" class="pokemon-grid"></div>
+  </div>
+
+  <script>
+    let currentUserId = null;
+
+    // הצגת המשתמש המחובר
+    fetch('/api/me', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(u => {
+        currentUserId = u.id;
+        document.getElementById('user-info').textContent = "Logged in as " + u.firstName;
+        // עדכון סטטוס online
+        return fetch('/api/online', { method: 'POST', credentials: 'same-origin' });
+      });
+
+    // יצירת כרטיס יריב
+    function createPlayerCard(user) {
+      const card = document.createElement('div');
+      card.className = "pokemon-card";
+      card.innerHTML = `
+        <h2>${user.firstName}</h2>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <p><em>Click to battle!</em></p>
+      `;
+      card.addEventListener('click', () => {
+        startBattleWith(user.id);
+      });
+      return card;
+    }
+
+    // טעינת רשימת שחקנים מחוברים
+    fetch('/api/online-users', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(data => {
+        const container = document.getElementById('players-container');
+        if (!data.online.length) {
+          container.textContent = "No players online.";
+          return;
+        }
+        data.online.forEach(user => {
+          if (user.id === currentUserId) return; // לא מציג את עצמי
+          container.appendChild(createPlayerCard(user));
+        });
+      });
+
+    function startBattleWith(opponentId) {
+      window.location.href = `/arena/battle.html?opponent=${opponentId}`;
+    }
+
+    // Nav buttons
+    document.getElementById('back-btn')
+      .addEventListener('click', () => window.location.href = '/arena');
+    document.getElementById('back-to-search-btn')
+      .addEventListener('click', () => window.location.href = '/');
+  </script>
+</body>
+</html>

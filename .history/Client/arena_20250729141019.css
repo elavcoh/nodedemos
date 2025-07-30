@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #ffcb05, #2a75bb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.arena-container {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.arena-title {
+  color: #2a75bb;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px #ffcb05;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: #ffcb05;
+  color: #2a75bb;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background: #2a75bb;
+  color: white;
+  transform: scale(1.05);
+}

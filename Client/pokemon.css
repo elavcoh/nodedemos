@@ -195,3 +195,17 @@ body {
 .pokemon-card .youtube-videos a:hover {
   text-decoration: underline;
 }
+#arena-button {
+  background-color: #ffcb05;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #2a75bb;
+  font-weight: bold;
+}
+#arena-button:hover {
+  background-color: #f5b700;
+}

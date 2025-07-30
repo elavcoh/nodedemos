@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battle vs Bot</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/pokemon.css" />
+  <link rel="stylesheet" href="/arena.css" />
+  <link rel="stylesheet" href="/vs-bot.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <!-- מצב בחירה -->
+  <div id="choose-screen" class="vs-bot-container arena-container">
+    <div class="button-container">
+      <button id="back-btn" class="nav-btn">Back</button>
+      <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    </div>
+
+    <h1 class="vs-bot-title arena-title">Choose Your Pokémon</h1>
+
+    <div id="loading-screen" class="loading-screen">Loading favorites…</div>
+    <div id="favorites-container"></div>
+
+    <button id="start-battle-btn" class="nav-btn" disabled>Start Battle</button>
+  </div>
+
+  <!-- מצב קרב -->
+  <div id="battle-screen" class="vs-bot-container arena-container hidden">
+    <h1 class="vs-bot-title arena-title">Battle Arena</h1>
+    <div class="battle-field">
+      <div id="player-slot" class="pokemon-slot"></div>
+      <div id="bot-slot" class="pokemon-slot"></div>
+    </div>
+    <button id="fight-btn" class="nav-btn">Fight!</button>
+  </div>
+
+  <script src="/vs-bot.js"></script>
+</body>
+</html>

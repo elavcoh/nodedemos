@@ -1,0 +1,26 @@
+<!-- File: Client/arena.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arena</title>
+  <link rel="stylesheet" href="pokemon.css" />
+  <link rel="stylesheet" href="arena.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="arena-container">
+    <h1 class="arena-title">Arena</h1>
+    <button id="back-button">Back to Search</button>
+    <button id="vs-bot-button">vs-bot</button>
+  </div>
+
+  <script>
+    document.getElementById('back-button')
+      .addEventListener('click', () => window.history.back());
+    document.getElementById('vs-bot-button')
+      .addEventListener('click', () => window.location.href = 'vs-bot');
+  </script>
+</body>
+</html>

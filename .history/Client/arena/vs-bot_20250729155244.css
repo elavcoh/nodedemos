@@ -1,0 +1,60 @@
+.vs-bot-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 30px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.vs-bot-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2rem;
+  color: #FFCB05;
+  text-shadow:
+    -2px 0 #2A75BB,
+     0 2px #2A75BB,
+     2px 0 #2A75BB,
+     0 -2px #2A75BB;
+  margin: 20px 0;
+}
+
+#favorites-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.pokemon-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, border 0.2s;
+  width: 200px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.pokemon-card:hover {
+  transform: scale(1.05);
+}
+.pokemon-card.selected {
+  border: 3px solid #2a75bb;
+}
+
+.battle-field {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 30px 0;
+}
+.pokemon-slot {
+  width: 200px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.hidden {
+  display: none;
+}

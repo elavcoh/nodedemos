@@ -1,0 +1,40 @@
+<!-- File: Client/battle.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Battle Arena</title>
+
+  <link rel="stylesheet" href="pokemon.css"/>
+  <link rel="stylesheet" href="battle.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <div class="battle-container">
+    <button id="back-btn" class="nav-btn">Back</button>
+    <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+
+    <h1 class="battle-title">Battle Arena</h1>
+
+    <div class="battle-area">
+      <div id="player-card" class="pokemon-card"></div>
+      <div id="bot-card"    class="pokemon-card"></div>
+    </div>
+
+    <!-- Only Start shown initially -->
+    <button id="fight-btn">Start Battle</button>
+    <button id="rematch-btn" class="nav-btn" style="display:none;">Rematch</button>
+
+    <div id="countdown" class="countdown"></div>
+    <div id="result"    class="result"></div>
+  </div>
+
+  <script src="battle.js"></script>
+</body>
+</html>

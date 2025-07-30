@@ -1,0 +1,44 @@
+<!-- File: Client/arena/vs-bot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Battle vs Bot</title>
+  <link rel="stylesheet" href="/pokemon.css" />
+  <link rel="stylesheet" href="/arena/vs-bot.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <!-- שלב 1: בחירת פוקימון -->
+  <div id="selection-screen" class="arena-container">
+    <div class="button-container">
+      <button id="back-btn" class="nav-btn">Back</button>
+      <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    </div>
+
+    <h1 class="arena-title">Choose Your Pokémon</h1>
+    <div id="loading-screen">Loading favorites…</div>
+    <div id="favorites-container" class="pokemon-grid"></div>
+
+    <button id="start-battle-btn" class="nav-btn" disabled>Start Battle</button>
+  </div>
+
+  <!-- שלב 2: מסך הקרב -->
+  <div id="battle-screen" class="arena-container" style="display:none;">
+    <h1 class="arena-title">Battle Arena</h1>
+    <div class="battle-area">
+      <div id="player-card" class="pokemon-card"></div>
+      <div id="bot-card" class="pokemon-card"></div>
+    </div>
+    <button id="restart-btn" class="nav-btn"
+      onclick="location.href='/arena/vs-bot'">Restart</button>
+  </div>
+
+  <script src="/arena/vs-bot.js"></script>
+</body>
+</html>

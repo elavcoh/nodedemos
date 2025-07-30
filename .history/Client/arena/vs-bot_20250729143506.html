@@ -1,0 +1,125 @@
+<!-- File: Client/arena/vs-bot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battle vs Bot</title>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="/pokemon.css" />
+  <!-- Arena shared styles -->
+  <link rel="stylesheet" href="/arena.css" />
+  <!-- Page-specific styles -->
+  <link rel="stylesheet" href="/vs-bot.css" />
+  <!-- Pixel font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <div class="vs-bot-container arena-container">
+    <div class="button-container">
+      <button id="back-btn" class="nav-btn">Back</button>
+      <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    </div>
+
+    <h1 class="vs-bot-title arena-title">Choose Your Pokémon</h1>
+
+    <div id="loading-screen" class="loading-screen">Loading favorites…</div>
+    <div id="favorites-container" class="pokemon-grid"></div>
+
+    <button id="start-battle-btn" class="nav-btn" disabled>Start Battle</button>
+  </div>
+
+  <script>
+    let favorites = [], selectedPokemonId = null;
+
+    // 1) Show logged-in user
+    fetch('/api/me', { credentials: 'same-origin' })
+      .then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(u => {
+        document.getElementById('user-info').textContent =
+          'Logged in as ' + u.firstName;
+      })
+      .catch(() => location.href = '/login');
+
+    // 2) Create card (no videos here)
+    function createPokemonCard(p) {
+      const card = document.createElement('div');
+      card.className = 'pokemon-card';
+      if (favorites.some(f=>f.id===p.id))
+        card.classList.add('added-to-favorites');
+      card.dataset.id = p.id;
+
+      card.innerHTML = `
+        <h2>#${p.id} - ${p.name}</h2>
+        <img src="${p.image}" alt="${p.name}" />
+        <p><strong>types:</strong> ${p.types.join(', ')}</p>
+        <p><strong>abilities:</strong> ${p.abilities.join(', ')}</p>
+        <div class="details">
+          <p><strong>HP:</strong> ${p.stats.hp}</p>
+          <p><strong>Attack:</strong> ${p.stats.attack}</p>
+          <p><strong>Defense:</strong> ${p.stats.defense}</p>
+          <p><strong>Speed:</strong> ${p.stats.speed}</p>
+        </div>
+      `;
+
+      // expand/collapse
+      card.addEventListener('click', e => {
+        if (e.target.closest('button')) return;
+        card.classList.toggle('expanded');
+      });
+
+      return card;
+    }
+
+    // 3) Fetch & render favorites
+    const container = document.getElementById('favorites-container');
+    fetch('/api/favorites', { credentials: 'same-origin' })
+      .then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(data => {
+        favorites = data.favorites || [];
+        document.getElementById('loading-screen').style.display = 'none';
+        if (!favorites.length) {
+          container.textContent = 'You have no favorites yet.';
+          return;
+        }
+        favorites.forEach(p => 
+          container.appendChild(createPokemonCard(p))
+        );
+      })
+      .catch(() => {
+        document.getElementById('loading-screen')
+          .textContent = 'Failed to load favorites.';
+      });
+
+    // 4) Select Pokémon
+    container.addEventListener('click', e => {
+      const card = e.target.closest('.pokemon-card');
+      if (!card) return;
+      document.querySelectorAll('.pokemon-card.selected')
+        .forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedPokemonId = card.dataset.id;
+      document.getElementById('start-battle-btn').disabled = false;
+    });
+
+    // 5) Start battle
+    document.getElementById('start-battle-btn')
+      .addEventListener('click', () => {
+        const botId = Math.floor(Math.random() * 898) + 1;
+        window.location.href = `/battle.html?player=${selectedPokemonId}&bot=${botId}`;
+      });
+
+    // 6) Navigation buttons
+    document.getElementById('back-btn')
+      .addEventListener('click', () => window.location.href = '/arena');
+    document.getElementById('back-to-search-btn')
+      .addEventListener('click', () => window.location.href = '/');
+  </script>
+</body>
+</html>

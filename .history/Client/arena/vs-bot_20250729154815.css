@@ -1,0 +1,54 @@
+/* File: Client/arena/vs-bot.css */
+.vs-bot-container, .arena-container {
+  max-width: 800px;
+  margin: 100px auto;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.arena-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2.5rem;
+  color: #FFCB05;
+  text-shadow: -2px 0 #2A75BB, 0 2px #2A75BB,
+               2px 0 #2A75BB, 0 -2px #2A75BB;
+  margin-bottom: 30px;
+}
+
+.nav-btn {
+  background-color: #ffcb05;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #2a75bb;
+  font-weight: bold;
+  margin: 0 10px;
+}
+.nav-btn:hover {
+  background-color: #f5b700;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.pokemon-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.pokemon-card:hover {
+  transform: scale(1.05);
+}
+.pokemon-card.selected {
+  border: 3px solid #2a75bb;
+}

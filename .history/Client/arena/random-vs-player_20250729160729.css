@@ -1,0 +1,33 @@
+.arena-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .arena-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    color: #FFCB05;
+    text-shadow: -2px 0 #2A75BB, 0 2px #2A75BB, 2px 0 #2A75BB, 0 -2px #2A75BB;
+    margin-bottom: 20px;
+  }
+  
+  .battle-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+  }
+  
+  .pokemon-card {
+    flex: 1;
+    max-width: 300px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  

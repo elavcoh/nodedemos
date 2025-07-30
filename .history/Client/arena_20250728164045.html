@@ -1,0 +1,43 @@
+<!-- File: Client/arena.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arena</title>
+  <link rel="stylesheet" href="pokemon.css" />
+  <link rel="stylesheet" href="arena.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="arena-container">
+    <h1 class="arena-title">Arena</h1>
+
+    <div class="button-group">
+      <button id="vs-bot-button">קרב נגד בוט</button>
+      <button id="vs-player-button">קרב רנדומלי מול שחקן</button>
+      <button id="history-button">צפייה בהיסטוריית קרבות</button>
+      <button id="ranking-button">דירוג שחקנים</button>
+    </div>
+
+    <button id="back-button">חזור לחיפוש</button>
+  </div>
+
+  <script>
+    document.getElementById('back-button')
+      .addEventListener('click', () => window.history.back());
+
+    document.getElementById('vs-bot-button')
+      .addEventListener('click', () => window.location.href = 'vs-bot.html');
+
+    document.getElementById('vs-player-button')
+      .addEventListener('click', () => window.location.href = 'vs-player.html');
+
+    document.getElementById('history-button')
+      .addEventListener('click', () => window.location.href = 'battle-history.html');
+
+    document.getElementById('ranking-button')
+      .addEventListener('click', () => window.location.href = 'ranking.html');
+  </script>
+</body>
+</html>

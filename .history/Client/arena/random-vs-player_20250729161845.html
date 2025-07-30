@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Random Battle vs Player</title>
+  <link rel="stylesheet" href="/pokemon.css"/>
+  <link rel="stylesheet" href="/arena.css"/>
+  <link rel="stylesheet" href="/random-vs-player.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div id="user-info">Loading user…</div>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </header>
+
+  <div class="arena-container">
+    <h1 class="arena-title">Random Battle vs Player</h1>
+    <div class="button-container">
+      <button id="back-btn" class="nav-btn">Back</button>
+      <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    </div>
+
+    <h2>Choose an Online Opponent:</h2>
+    <ul id="players-list" class="players-list"></ul>
+  </div>
+
+  <script>
+    let currentUserId = null;
+
+    // הצגת המשתמש המחובר
+    fetch('/api/me', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(u => {
+        currentUserId = u.id;
+        document.getElementById('user-info').textContent = "Logged in as " + u.firstName;
+        // עדכון סטטוס online
+        return fetch('/api/online', { method: 'POST', credentials: 'same-origin' });
+      });
+
+    // טעינת רשימת שחקנים מחוברים
+    fetch('/api/online-users', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(data => {
+        const list = document.getElementById('players-list');
+        if (!data.online.length) {
+          list.textContent = "No players online.";
+          return;
+        }
+        data.online.forEach(user => {
+          if (user.id === currentUserId) return; // לא מציג את עצמי
+          const li = document.createElement('li');
+          li.textContent = user.firstName;
+          li.classList.add("player-item");
+          li.addEventListener('click', () => startBattleWith(user.id));
+          list.appendChild(li);
+        });
+      });
+
+    function startBattleWith(opponentId) {
+      // ניווט לקרב (battle.html)
+      window.location.href = `/arena/battle.html?opponent=${opponentId}`;
+    }
+
+    // Nav buttons
+    document.getElementById('back-btn')
+      .addEventListener('click', () => window.location.href = '/arena');
+    document.getElementById('back-to-search-btn')
+      .addEventListener('click', () => window.location.href = '/');
+  </script>
+</body>
+</html>
