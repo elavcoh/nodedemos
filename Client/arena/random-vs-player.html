@@ -2,28 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Random vs Player</title>
-  <!-- שים לב שהנתיבים עכשיו תחת /arena -->
+  <title>Random Battle vs Player</title>
   <link rel="stylesheet" href="/arena/random-vs-player.css"/>
-  <link rel="stylesheet" href="/battle.css"/>
 </head>
 <body>
   <div class="arena-container">
     <h1 class="arena-title">Random Battle vs Player</h1>
-
     <div id="players-section">
       <h2>Choose Opponent:</h2>
       <div id="players-list" class="players-list">Loading players…</div>
     </div>
-
     <div id="battle-section" class="battle-container" style="display:none;">
-      <div id="timer"></div>
-      <div id="battle-field"></div>
-      <button id="start-battle-btn">Start Battle</button>
+      <div id="timer" class="battle-timer"></div>
+      <div id="battle-field" class="battle-field"></div>
+      <button id="start-battle-btn" class="battle-btn">Start Battle</button>
+      <button id="back-btn" class="back-btn">Back to Opponents</button>
+    </div>
+    <div class="rules-section">
+      <h3>How does it work?</h3>
+      <ul>
+        <li>See all <b>online</b> players (except yourself) and challenge one to a random battle.</li>
+        <li>Each player’s Pokémon is chosen randomly from their favorites.</li>
+        <li>Battle score is calculated:<br>
+          <b>Total Score = HP × 0.3 + Attack × 0.4 + Defense × 0.2 + Speed × 0.1</b>
+        </li>
+        <li>Countdown 3...2...1, then the winner is shown with a crown.</li>
+        <li>Both Pokémon stats and scores are displayed.</li>
+      </ul>
+      <div class="example">
+        <b>Example:</b><br>
+        Pikachu (HP=60, Attack=55, Defense=40, Speed=90)<br>
+        Score = 60×0.3 + 55×0.4 + 40×0.2 + 90×0.1 = <b>55.5</b>
+      </div>
     </div>
   </div>
-
-  <!-- הנתיב של ה־JS תוקן -->
   <script src="/arena/random-vs-player.js"></script>
 </body>
 </html>

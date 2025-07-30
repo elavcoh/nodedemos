@@ -19,21 +19,26 @@
     margin-bottom: 30px;
   }
   
-  /* back & vs-bot buttons reuse Pokémon button style */
   #back-button,
-  #vs-bot-button {
+  #vs-bot-button,
+  #vs-player-button {
     background-color: #ffcb05;
     border: none;
     padding: 12px 20px;
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
     color: #2a75bb;
     font-weight: bold;
     margin: 0 10px;
+    box-shadow: 0 4px 15px rgba(42, 117, 187, 0.15);
+    font-family: 'Press Start 2P', cursive;
   }
   #back-button:hover,
-  #vs-bot-button:hover {
-    background-color: #f5b700;
+  #vs-bot-button:hover,
+  #vs-player-button:hover {
+    background: linear-gradient(45deg, #ffcb05 60%, #ffe066 100%);
+    box-shadow: 0 8px 24px rgba(42, 117, 187, 0.25);
+    transform: translateY(-3px) scale(1.07);
   }

@@ -84,7 +84,8 @@ router.post('/register', async (req, res) => {
     firstName,
     email,
     password: hashedPassword,
-    favorites: []
+    favorites: [],
+    online: false   // 🔥 חדש – ברירת מחדל: לא מחובר
   };
 
   users.push(newUser);
@@ -95,29 +96,51 @@ router.post('/register', async (req, res) => {
 
 // ————— HANDLE LOGIN —————
 router.post('/login', async (req, res) => {
-  const users = JSON.parse(fs.readFileSync(USERS_FILE));
-  const user = users.find(u => u.email === req.body.email);
+  const { email, password } = req.body;
+  const users = readUsers();
+  const user = users.find(u => u.email === email);
 
-  // בדיקת סיסמה וכו'
-  if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return res.status(401).render('login', { error: 'Invalid credentials' });
+  if (!user) {
+    return res.status(401).send(`
+      <h2>User Not Found</h2>
+      <a href="/login">Try Again</a>
+    `);
   }
 
-  // עדכון/הוספת שדה online
-  const updatedUsers = users.map(u =>
-    u.id === user.id
-      ? { ...u, online: true }
-      : (u.online === undefined ? { ...u, online: false } : u)
-  );
-  fs.writeFileSync(USERS_FILE, JSON.stringify(updatedUsers, null, 2));
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    return res.status(401).send(`
+      <h2>Incorrect Password</h2>
+      <a href="/login">Try Again</a>
+    `);
+  }
 
-  // שמירת המשתמש בסשן
-  req.session.user = { id: user.id, email: user.email, firstName: user.firstName };
-  res.redirect('/arena');
+  // עדכון Online
+  const updatedUsers = users.map(u =>
+    u.id === user.id ? { ...u, online: true } : u
+  );
+  writeUsers(updatedUsers);
+
+  // Save user info to session
+  req.session.user = {
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName
+  };
+
+  res.redirect('/');
 });
 
 // ————— HANDLE LOGOUT —————
 router.get('/logout', (req, res) => {
+  if (req.session.user) {
+    const users = readUsers();
+    const updatedUsers = users.map(u =>
+      u.id === req.session.user.id ? { ...u, online: false } : u
+    );
+    writeUsers(updatedUsers);
+  }
+
   req.session.destroy(err => {
     if (err) {
       return res.status(500).send('Logout failed');

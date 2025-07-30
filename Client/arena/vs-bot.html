@@ -1,0 +1,33 @@
+<!-- File: Client/arena/vs-bot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battle vs Bot</title>
+
+  <!-- global Pokémon styles -->
+  <link rel="stylesheet" href="/pokemon.css" />
+  <!-- page-specific styles (relative path!) -->
+  <link rel="stylesheet" href="vs-bot.css" />
+
+  <!-- pixel font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div>Logged in as <span id="user-name"></span></div>
+    <a class="logout-btn" href="/logout">Logout</a>
+  </header>
+
+  <main class="vs-bot-container">
+    <button id="back-btn" class="nav-btn">Back</button>
+    <button id="back-to-search-btn" class="nav-btn">Back to Search</button>
+    <h1 class="vs-bot-title">Choose Your Pokémon</h1>
+    <div id="favorites-list" class="pokemon-grid"></div>
+    <button id="start-battle-btn">Start Battle</button>
+  </main>
+
+  <script src="/arena/vs-bot.js"></script>
+</body>
+</html>
