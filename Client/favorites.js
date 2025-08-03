@@ -7,9 +7,9 @@ const loadingScreen   = document.getElementById("loading-screen");
 let favorites = [];
 const detailsCache = new Map();
 
-// חזרה לעמוד הראשי
+// חזרה לדף החיפוש
 backButton?.addEventListener("click", () => {
-  window.location.href = "/";
+  window.location.href = "/search";
 });
 
 // מיון לפי שם או מזהה

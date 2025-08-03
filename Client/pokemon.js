@@ -89,18 +89,9 @@ async function toggleFavorite(pokemon, card, btn) {
       const data = await res.json();
 
       if (!res.ok) {
-        const text = await res.text();
-        try {
-          const json = JSON.parse(text);
-          console.error("SERVER ERROR:", json); // נראה מה השרת החזיר
-          alert(json.error || "Failed to add favorite.");
-        } catch (e) {
-          console.error("Raw error:", text); // אם זה לא JSON
-          alert("Failed to add favorite.");
-        }
+        alert(data.error || "Failed to add favorite.");
         return;
       }
-      
 
       favorites = data.favorites;
       card.classList.add("added-to-favorites");
@@ -108,7 +99,7 @@ async function toggleFavorite(pokemon, card, btn) {
 
     } catch (err) {
       console.error("Error adding favorite:", err);
-      alert("You can only have up to 10 favorite Pokémon");
+      alert("Failed to add favorite.");
     }
   }
 }
@@ -240,6 +231,9 @@ clearButton.addEventListener("click", () => {
 });
 
 window.addEventListener("DOMContentLoaded", async () => {
+  // Hide loading screen initially
+  loadingScreen.style.display = "none";
+  
   try {
     const res = await fetch("/api/favorites", { credentials: "same-origin" });
     const data = await res.json();
@@ -258,7 +252,5 @@ window.addEventListener("DOMContentLoaded", async () => {
     searchPokemon(savedSearch, savedFilter);
     sessionStorage.removeItem("savedSearch");
     sessionStorage.removeItem("savedFilter");
-  } else {
-    loadingScreen.style.display = "none";
   }
 });

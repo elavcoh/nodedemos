@@ -37,6 +37,18 @@
 
   </div>
 
+  <script src="/utils.js"></script>
   <script src="/arena/battle.js"></script>
+  
+  <script>
+    // Mark user as offline when page is closed
+    window.addEventListener('beforeunload', function() {
+      // Send a synchronous request to mark user as offline
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/offline', false); // Synchronous request
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+    });
+  </script>
 </body>
 </html> 

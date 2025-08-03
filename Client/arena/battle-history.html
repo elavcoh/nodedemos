@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle History</title>
+    <link rel="stylesheet" href="battle-history.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="window.location.href='/arena'">← Back to Arena</button>
+            <h1>Battle History</h1>
+        </div>
+        
+        <div class="user-info">
+            <p>Welcome, <span id="user-name">User</span>!</p>
+            <p>Your battle history:</p>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Battles</button>
+            <button class="filter-btn" data-filter="won">Won</button>
+            <button class="filter-btn" data-filter="lost">Lost</button>
+            <button class="filter-btn" data-filter="vs-bot">VS Bot</button>
+            <button class="filter-btn" data-filter="vs-player">VS Player</button>
+        </div>
+        
+        <div id="battle-history" class="battle-history">
+            <div class="loading">Loading battle history...</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Battles</h3>
+                <span id="total-battles">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Wins</h3>
+                <span id="total-wins">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Win Rate</h3>
+                <span id="win-rate">0%</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="battle-history.js"></script>
+</body>
+</html> 

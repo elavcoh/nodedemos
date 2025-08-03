@@ -12,14 +12,46 @@
 <body>
   <div class="arena-container">
     <h1 class="arena-title">Arena</h1>
+    <div id="battle-limit-info" style="text-align: center; margin: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+      <p><strong>Daily Battle Limit:</strong> <span id="battles-used">0</span>/5 battles used</p>
+      <p><strong>Remaining:</strong> <span id="battles-remaining">5</span> battles today</p>
+      <p><small>Limit resets at midnight</small></p>
+    </div>
     <button id="back-button">Back to Search</button>
     <button id="vs-bot-button">vs-bot</button>
     <button id="vs-player-button">vs-player</button>
+    <button id="battle-history-button">Battle History</button>
+    <button id="leaderboard-button">Leaderboard</button>
   </div>
 
   <script>
+    // טעינת מידע הגבלת קרבות
+    async function loadBattleLimitInfo() {
+      try {
+        const res = await fetch('/api/battle-limit');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('battles-used').textContent = data.battlesUsed || 0;
+          document.getElementById('battles-remaining').textContent = data.battlesRemaining || 5;
+          
+          // שנה צבע אם נגמרו הקרבות
+          if (data.battlesRemaining === 0) {
+            document.getElementById('battle-limit-info').style.background = '#ffebee';
+            document.getElementById('battle-limit-info').style.color = '#c62828';
+          }
+        }
+      } catch (error) {
+        console.error('Error loading battle limit info:', error);
+      }
+    }
+
+    // טען מידע בטעינת הדף
+    loadBattleLimitInfo();
+
     document.getElementById('back-button')
-      .addEventListener('click', () => history.back());
+      .addEventListener('click', () => {
+        window.location.href = '/search';
+      });
 
     document.getElementById('vs-bot-button')
       .addEventListener('click', () => {
@@ -30,6 +62,25 @@
       .addEventListener('click', () => {
         window.location.href = '/arena/random-vs-player';
       });
+
+    document.getElementById('battle-history-button')
+      .addEventListener('click', () => {
+        window.location.href = '/arena/battle-history';
+      });
+
+    document.getElementById('leaderboard-button')
+      .addEventListener('click', () => {
+        window.location.href = '/arena/leaderboard';
+      });
+
+    // Mark user as offline when page is closed
+    window.addEventListener('beforeunload', function() {
+      // Send a synchronous request to mark user as offline
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/offline', false); // Synchronous request
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+    });
   </script>
 </body>
 </html>

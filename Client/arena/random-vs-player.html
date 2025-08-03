@@ -7,7 +7,10 @@
 </head>
 <body>
   <div class="arena-container">
-    <h1 class="arena-title">Random Battle vs Player</h1>
+    <div class="header-section">
+      <button class="back-to-arena-btn" onclick="window.location.href='/arena'">← Back to Arena</button>
+      <h1 class="arena-title">Random Battle vs Player</h1>
+    </div>
     <div id="players-section">
       <h2>Choose Opponent:</h2>
       <div id="players-list" class="players-list">Loading players…</div>
@@ -16,15 +19,16 @@
       <div id="timer" class="battle-timer"></div>
       <div id="battle-field" class="battle-field"></div>
       <button id="start-battle-btn" class="battle-btn">Start Battle</button>
+      <button id="rematch-btn" class="battle-btn" style="display: none;">Rematch</button>
       <button id="back-btn" class="back-btn">Back to Opponents</button>
     </div>
     <div class="rules-section">
       <h3>How does it work?</h3>
       <ul>
         <li>See all <b>online</b> players (except yourself) and challenge one to a random battle.</li>
-        <li>Each player’s Pokémon is chosen randomly from their favorites.</li>
+        <li>Each player's Pokémon is chosen randomly from their favorites.</li>
         <li>Battle score is calculated:<br>
-          <b>Total Score = HP × 0.3 + Attack × 0.4 + Defense × 0.2 + Speed × 0.1</b>
+          <b>Total Score = HP × 0.3 + Attack × 0.4 + Defense × 0.2 + Speed × 0.1 + small random</b>
         </li>
         <li>Countdown 3...2...1, then the winner is shown with a crown.</li>
         <li>Both Pokémon stats and scores are displayed.</li>
@@ -32,10 +36,24 @@
       <div class="example">
         <b>Example:</b><br>
         Pikachu (HP=60, Attack=55, Defense=40, Speed=90)<br>
-        Score = 60×0.3 + 55×0.4 + 40×0.2 + 90×0.1 = <b>55.5</b>
+        Base Score = 60×0.3 + 55×0.4 + 40×0.2 + 90×0.1 = <b>55.5</b><br>
+        Random Bonus = 2.3<br>
+        Final Score = <b>57.8</b>
       </div>
     </div>
   </div>
+  <script src="/utils.js"></script>
   <script src="/arena/random-vs-player.js"></script>
+  
+  <script>
+    // Mark user as offline when page is closed
+    window.addEventListener('beforeunload', function() {
+      // Send a synchronous request to mark user as offline
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/offline', false); // Synchronous request
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+    });
+  </script>
 </body>
 </html>

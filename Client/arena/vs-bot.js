@@ -79,11 +79,26 @@
     const startBattleBtn = document.getElementById('start-battle-btn');
     startBattleBtn.disabled = true; // Start disabled until a Pokémon is selected
     
-    startBattleBtn.addEventListener('click', () => {
+    startBattleBtn.addEventListener('click', async () => {
       if (!selectedId) {
         alert('Please select a Pokémon first!');
         return;
       }
+      
+      // בדוק הגבלת קרבות לפני התחלת הקרב
+      try {
+        const limitRes = await fetch('/api/battle-limit');
+        if (limitRes.ok) {
+          const limitData = await limitRes.json();
+          if (!limitData.canBattle) {
+            alert(limitData.error);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Error checking battle limit:', error);
+      }
+      
       const botId = Math.floor(Math.random() * 898) + 1;
       // Store the IDs in sessionStorage for the battle page to use
       sessionStorage.setItem('playerId', selectedId);

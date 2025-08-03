@@ -1,3 +1,14 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-image: url('https://wallpapercave.com/uwp/uwp4775786.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .site-header {
     display: flex;
     justify-content: space-between;
@@ -60,19 +71,41 @@
     cursor: pointer;
   }
   #fight-btn {
-    background-color: #ffcb05;
-    border: none;
+    background: linear-gradient(135deg, #ffcb05 0%, #f5b700 100%);
+    border: 2px solid #2a75bb;
     padding: 12px 20px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius: 25px;
     cursor: pointer;
     color: #2a75bb;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(42, 117, 187, 0.2);
+    position: relative;
+    overflow: hidden;
   }
+  
+  #fight-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  #fight-btn:hover::before {
+    left: 100%;
+  }
+  
   #fight-btn:hover {
-    background-color: #f5b700;
-    color: #000;
+    background: linear-gradient(135deg, #2a75bb 0%, #1e5aa8 100%);
+    color: #ffcb05;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(42, 117, 187, 0.4);
+    border-color: #ffcb05;
   }
   .countdown {
     font-family: 'Press Start 2P', cursive;
@@ -94,17 +127,40 @@
   
   /* nav buttons */
   .nav-btn {
-    background-color: #ffcb05;
-    border: none;
+    background: linear-gradient(135deg, #ffcb05 0%, #f5b700 100%);
+    border: 2px solid #2a75bb;
     padding: 12px 20px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius: 25px;
     cursor: pointer;
     color: #2a75bb;
     font-weight: bold;
     margin-right: 10px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(42, 117, 187, 0.2);
+    position: relative;
+    overflow: hidden;
   }
+  
+  .nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  .nav-btn:hover::before {
+    left: 100%;
+  }
+  
   .nav-btn:hover {
-    background-color: #f5b700;
+    background: linear-gradient(135deg, #2a75bb 0%, #1e5aa8 100%);
+    color: #ffcb05;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(42, 117, 187, 0.4);
+    border-color: #ffcb05;
   } 

@@ -1,5 +1,6 @@
 let battleData = null;
 let currentUser = null;
+let battleAudio = null; // משתנה גלובלי לצליל הקרב
 
 // טעינת המשתמש הנוכחי
 async function loadCurrentUser() {
@@ -64,6 +65,21 @@ async function loadPlayers() {
 // התחלת קרב מול שחקן אחר
 async function startBattle(opponentId) {
   console.log('Starting battle with opponent:', opponentId);
+  
+  // בדוק הגבלת קרבות לפני התחלת הקרב
+  try {
+    const limitRes = await fetch('/api/battle-limit');
+    if (limitRes.ok) {
+      const limitData = await limitRes.json();
+      if (!limitData.canBattle) {
+        alert(limitData.error);
+        return;
+      }
+    }
+  } catch (error) {
+    console.error('Error checking battle limit:', error);
+  }
+  
   try {
     const res = await fetch('/api/arena/battle', {
       method: 'POST',
@@ -80,6 +96,33 @@ async function startBattle(opponentId) {
     
     battleData = await res.json();
     console.log('Battle data received:', battleData);
+    
+    // אפס את המצב הקודם
+    const startBtn = document.getElementById('start-battle-btn');
+    const rematchBtn = document.getElementById('rematch-btn');
+    const timer = document.getElementById('timer');
+    
+    // אפס כפתורים
+    startBtn.disabled = false;
+    startBtn.style.display = 'inline-block';
+    rematchBtn.style.display = 'none';
+    
+    // הסתר טיימר
+    timer.style.display = 'none';
+    
+    // הסר כתרים ומצבי מנצח/מפסיד
+    const me = document.getElementById('me');
+    const opp = document.getElementById('opp');
+    if (me) {
+      me.classList.remove('winner', 'loser');
+      const crowns = me.querySelectorAll('.crown');
+      crowns.forEach(crown => crown.remove());
+    }
+    if (opp) {
+      opp.classList.remove('winner', 'loser');
+      const crowns = opp.querySelectorAll('.crown');
+      crowns.forEach(crown => crown.remove());
+    }
     
     document.getElementById('players-section').style.display = 'none';
     document.getElementById('battle-section').style.display = 'block';
@@ -187,14 +230,34 @@ function animatePokemonRoulette() {
 }
 
 // טיימר 3...2...1 ואז הצגת מנצח
-document.getElementById('start-battle-btn').onclick = () => {
+function runBattle() {
   const timer = document.getElementById('timer');
-  const btn = document.getElementById('start-battle-btn');
-  btn.disabled = true;
+  const startBtn = document.getElementById('start-battle-btn');
+  const rematchBtn = document.getElementById('rematch-btn');
+  
+  // Reset UI
+  startBtn.disabled = true;
+  rematchBtn.style.display = 'none';
+  
+  // Clear previous winner/loser classes
+  const me = document.getElementById('me');
+  const opp = document.getElementById('opp');
+  me.classList.remove('winner', 'loser');
+  opp.classList.remove('winner', 'loser');
+  
+  // Remove previous crowns
+  const crowns = document.querySelectorAll('.crown');
+  crowns.forEach(crown => crown.remove());
+  
+  // Create and play battle sound
+  battleAudio = new Audio('/sounds/battle sound.mp3');
+  battleAudio.volume = 0.3;
+  battleAudio.play().catch(e => console.log('Battle sound play failed:', e));
   
   let countdown = 3;
   timer.textContent = countdown;
   timer.style.display = 'block';
+  
   const interval = setInterval(() => {
     countdown--;
     if (countdown === 0) {
@@ -203,20 +266,77 @@ document.getElementById('start-battle-btn').onclick = () => {
       setTimeout(() => {
         timer.style.display = 'none';
         showWinner();
+        // Show rematch button after battle
+        rematchBtn.style.display = 'inline-block';
+        startBtn.style.display = 'none';
       }, 1000);
     } else {
       timer.textContent = countdown;
     }
   }, 1000);
-};
+}
+
+// Wire up the buttons
+document.getElementById('start-battle-btn').onclick = runBattle;
+document.getElementById('rematch-btn').onclick = startNewRandomBattle;
+
+// פונקציה חדשה ליצירת קרב רנדומלי חדש
+async function startNewRandomBattle() {
+  console.log('Starting new random battle...');
+  
+  // בדוק הגבלת קרבות לפני התחלת הקרב
+  try {
+    const limitRes = await fetch('/api/battle-limit');
+    if (limitRes.ok) {
+      const limitData = await limitRes.json();
+      if (!limitData.canBattle) {
+        alert(limitData.error);
+        return;
+      }
+    }
+  } catch (error) {
+    console.error('Error checking battle limit:', error);
+  }
+  
+  try {
+    // קבל רשימת שחקנים מקוונים
+    const res = await fetch('/api/online-users');
+    const data = await res.json();
+    
+    if (!data.online || data.online.length === 0) {
+      alert('No players available for battle. Please try again.');
+      return;
+    }
+    
+    // בחר יריב רנדומלי
+    const randomIndex = Math.floor(Math.random() * data.online.length);
+    const randomPlayer = data.online[randomIndex];
+    
+    console.log('Selected random opponent:', randomPlayer.firstName);
+    
+    // התחל קרב חדש עם היריב הרנדומלי
+    await startBattle(randomPlayer.id);
+    
+  } catch (error) {
+    console.error('Error starting new random battle:', error);
+    alert('Failed to start new battle. Please try again.');
+  }
+}
 
 // הצגת מנצח עם כתר וצליל
 function showWinner() {
+  // עצירת צליל הקרב מיד
+  if (battleAudio) {
+    battleAudio.pause();
+    battleAudio.currentTime = 0;
+    battleAudio = null;
+  }
+  
   const winnerId = battleData.winner;
   const me = document.getElementById('me');
   const opp = document.getElementById('opp');
   
-  // הפעלת צליל
+  // הפעלת צליל המנצח
   const audio = new Audio('/sounds/sound.wav');
   audio.play().catch(e => console.log('Audio play failed:', e));
   
@@ -235,6 +355,18 @@ function showWinner() {
 document.getElementById('back-btn').onclick = () => {
   document.getElementById('players-section').style.display = 'block';
   document.getElementById('battle-section').style.display = 'none';
+  // Reset buttons when going back
+  document.getElementById('start-battle-btn').disabled = false;
+  document.getElementById('start-battle-btn').style.display = 'inline-block';
+  document.getElementById('rematch-btn').style.display = 'none';
+  // Clear any winner/loser classes
+  const me = document.getElementById('me');
+  const opp = document.getElementById('opp');
+  if (me) me.classList.remove('winner', 'loser');
+  if (opp) opp.classList.remove('winner', 'loser');
+  // Remove crowns
+  const crowns = document.querySelectorAll('.crown');
+  crowns.forEach(crown => crown.remove());
 };
 
 // אתחול

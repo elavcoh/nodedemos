@@ -1,3 +1,14 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-image: url('https://wallpapercave.com/uwp/uwp4775786.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .arena-container {
     max-width: 800px;
     margin: 100px auto;
@@ -21,7 +32,9 @@
   
   #back-button,
   #vs-bot-button,
-  #vs-player-button {
+  #vs-player-button,
+  #battle-history-button,
+  #leaderboard-button {
     background-color: #ffcb05;
     border: none;
     padding: 12px 20px;
@@ -37,7 +50,9 @@
   }
   #back-button:hover,
   #vs-bot-button:hover,
-  #vs-player-button:hover {
+  #vs-player-button:hover,
+  #battle-history-button:hover,
+  #leaderboard-button:hover {
     background: linear-gradient(45deg, #ffcb05 60%, #ffe066 100%);
     box-shadow: 0 8px 24px rgba(42, 117, 187, 0.25);
     transform: translateY(-3px) scale(1.07);

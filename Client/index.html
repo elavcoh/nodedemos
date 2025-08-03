@@ -23,6 +23,8 @@
     <img src="image/loading.gif" alt="loading" class="loading-icon" />
   </div>
 
+
+
   <div class="search-container">
     <h1>pokemon search</h1>
     <div class="search-controls">
@@ -83,6 +85,18 @@
   <script>
     window.YOUTUBE_API_KEY = 'AIzaSyAwE8dzVs5YAPY1crR99bnp7Rk0g4lamtM';
   </script>
+  <script src="utils.js"></script>
   <script src="pokemon.js"></script>
+  
+  <script>
+    // Mark user as offline when page is closed
+    window.addEventListener('beforeunload', function() {
+      // Send a synchronous request to mark user as offline
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/offline', false); // Synchronous request
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+    });
+  </script>
 </body>
 </html>

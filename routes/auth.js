@@ -70,11 +70,8 @@ router.post('/register', async (req, res) => {
 
   // If any errors, show them
   if (errors.length > 0) {
-    return res.status(400).send(`
-      <h2>Registration Failed</h2>
-      <ul>${errors.map(e => `<li>${e}</li>`).join('')}</ul>
-      <a href="/register">Back</a>
-    `);
+    const errorMessage = errors.join(' ');
+    return res.redirect('/register?error=' + encodeURIComponent(errorMessage));
   }
 
   // All good → create user with id + favorites
@@ -100,7 +97,7 @@ router.post('/login', async (req, res) => {
 
   // בדיקת סיסמה וכו'
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return res.status(401).render('login', { error: 'Invalid credentials' });
+    return res.redirect('/login?error=' + encodeURIComponent('Invalid email or password!'));
   }
 
   // עדכון/הוספת שדה online
@@ -113,7 +110,7 @@ router.post('/login', async (req, res) => {
 
   // שמירת המשתמש בסשן
   req.session.user = { id: user.id, email: user.email, firstName: user.firstName };
-  res.redirect('/arena');
+  res.redirect('/search');
 });
 
 // ————— HANDLE LOGOUT —————

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Player Leaderboard</title>
+  <link rel="stylesheet" href="/arena/leaderboard.css"/>
+</head>
+<body>
+  <div class="leaderboard-container">
+    <div class="header-section">
+      <button class="back-to-arena-btn" onclick="window.location.href='/arena'">← Back to Arena</button>
+      <h1 class="leaderboard-title">Player Leaderboard</h1>
+    </div>
+    
+    <div class="info-section">
+      <div class="scoring-info">
+        <h3>Scoring System:</h3>
+        <ul>
+          <li><span class="win-text">Win:</span> 3 points</li>
+          <li><span class="tie-text">Tie:</span> 1 point</li>
+          <li><span class="loss-text">Loss:</span> 0 points</li>
+        </ul>
+        <p class="requirement-text"><strong>Requirement:</strong> Minimum 5 battles to qualify</p>
+      </div>
+      <button id="refresh-btn">Refresh Rankings</button>
+    </div>
+
+    <div id="loading-message" class="loading-message">Loading leaderboard...</div>
+    
+    <div id="leaderboard-table" class="leaderboard-table">
+      <!-- Leaderboard will be loaded here -->
+    </div>
+
+    <div id="no-players-message" class="no-players-message" style="display: none;">
+      <h3>No Qualified Players Found</h3>
+      <p>Players need at least 5 battles to appear on the leaderboard.</p>
+      <p>Start battling to qualify for the rankings!</p>
+      <button onclick="window.location.href='/arena/random-vs-player'" class="start-battle-btn">Start a Battle</button>
+    </div>
+  </div>
+
+  <script src="/arena/leaderboard.js"></script>
+  
+  <script>
+    // Mark user as offline when page is closed
+    window.addEventListener('beforeunload', function() {
+      // Send a synchronous request to mark user as offline
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/offline', false); // Synchronous request
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+    });
+  </script>
+</body>
+</html> 

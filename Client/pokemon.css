@@ -209,3 +209,73 @@ body {
 #arena-button:hover {
   background-color: #f5b700;
 }
+
+/* Stylish Pokémon card buttons */
+.add-to-favorites {
+  background: linear-gradient(135deg, #ffcb05 0%, #f5b700 100%);
+  border: 2px solid #2a75bb;
+  color: #2a75bb;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  box-shadow: 0 4px 15px rgba(42, 117, 187, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-to-favorites::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.add-to-favorites:hover::before {
+  left: 100%;
+}
+
+.add-to-favorites:hover {
+  background: linear-gradient(135deg, #2a75bb 0%, #1e5aa8 100%);
+  color: #ffcb05;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(42, 117, 187, 0.4);
+  border-color: #ffcb05;
+}
+
+.add-to-favorites:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Clear button */
+#clear-button {
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  border: 2px solid #990000;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#clear-button:hover {
+  background: linear-gradient(135deg, #ff3333 0%, #ff0000 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+  border-color: #ff0000;
+}
+
+#clear-button:active {
+  transform: translateY(0) scale(0.98);
+}

@@ -70,7 +70,7 @@
     const pcEl       = document.getElementById('player-card');
     const bcEl       = document.getElementById('bot-card');
   
-        function runBattle() {
+    function runBattle() {
       // reset UI
       pcEl.classList.remove('winner','loser');
       bcEl.classList.remove('winner','loser');
@@ -100,6 +100,12 @@
       // countdown 3…2…1…Fight!
       let cnt = 3;
       cdEl.textContent = cnt;
+      
+      // Create and play battle sound
+      const battleSound = new Audio('/sounds/battle sound.mp3');
+      battleSound.volume = 0.3;
+      battleSound.play().catch(e => console.log('Battle sound play failed:', e));
+      
       const iv = setInterval(() => {
         cnt--;
         if (cnt > 0) {
@@ -107,18 +113,27 @@
         } else {
           clearInterval(iv);
           cdEl.textContent = 'Fight!';
+          
           // highlight
+          let result = 'tie';
           if (pScore > bScore) {
             pcEl.classList.add('winner');
             bcEl.classList.add('loser');
             resEl.textContent = 'You Win!';
+            result = 'won';
           } else if (bScore > pScore) {
             bcEl.classList.add('winner');
             pcEl.classList.add('loser');
             resEl.textContent = 'Bot Wins!';
+            result = 'lost';
           } else {
             resEl.textContent = "It's a Tie!";
+            result = 'tie';
           }
+          
+          // Save battle result to server
+          saveBattleResult(player, bot, pScore, bScore, result);
+          
           try {
             const sound = document.getElementById('battle-end-sound');
             if (sound) sound.play();
@@ -128,8 +143,59 @@
 
           // show Rematch only
           rematchBtn.style.display = 'inline-block';
+          
+          // Stop battle sound 2 seconds after winner is declared
+          setTimeout(() => {
+            battleSound.pause();
+            battleSound.currentTime = 0;
+          }, 2000);
         }
       }, 1000);
+    }
+    
+    // Save battle result to server
+    async function saveBattleResult(player, bot, playerScore, botScore, result) {
+      try {
+        const response = await fetch('/api/arena/bot-battle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            playerPokemon: {
+              name: player.name,
+              image: player.sprites.front_default,
+              stats: {
+                hp: player.stats.find(s => s.stat.name === 'hp').base_stat,
+                attack: player.stats.find(s => s.stat.name === 'attack').base_stat,
+                defense: player.stats.find(s => s.stat.name === 'defense').base_stat,
+                speed: player.stats.find(s => s.stat.name === 'speed').base_stat
+              }
+            },
+            botPokemon: {
+              name: bot.name,
+              image: bot.sprites.front_default,
+              stats: {
+                hp: bot.stats.find(s => s.stat.name === 'hp').base_stat,
+                attack: bot.stats.find(s => s.stat.name === 'attack').base_stat,
+                defense: bot.stats.find(s => s.stat.name === 'defense').base_stat,
+                speed: bot.stats.find(s => s.stat.name === 'speed').base_stat
+              }
+            },
+            playerScore: playerScore,
+            botScore: botScore,
+            winner: result === 'won' ? 'player' : result === 'lost' ? 'bot' : 'tie'
+          })
+        });
+        
+        if (response.ok) {
+          console.log('Battle result saved successfully');
+        } else {
+          console.error('Failed to save battle result');
+        }
+      } catch (error) {
+        console.error('Error saving battle result:', error);
+      }
     }
   
     // wire buttons
